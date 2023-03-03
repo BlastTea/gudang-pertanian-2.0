@@ -1,0 +1,81 @@
+item_id,name,type,status,price,expired_day
+1,Apel,fruit,active,5000,7
+2,Alpukat,fruit,active,10000,5
+3,Jeruk Bali,fruit,active,8000,7
+4,Pisang,fruit,active,3000,5
+5,Blackberry,fruit,active,8000,3
+6,Blueberry,fruit,active,10000,3
+7,Buah Naga,fruit,active,12000,3
+8,Cherry,fruit,active,15000,3
+9,Kismis,fruit,active,10000,6
+10,Coconut,fruit,active,8000,14
+11,Cranberry,fruit,active,9000,3
+12,Anggur,fruit,active,8000,5
+13,Grapefruit,fruit,active,7000,14
+14,Guava,fruit,active,6000,4
+15,Honeydew,fruit,active,5000,5
+16,Jambu Air,fruit,active,4000,3
+17,Salak,fruit,active,10000,3
+18,Jeruk,fruit,active,6000,7
+19,Levender,fruit,active,8000,3
+20,Kiwi,fruit,active,10000,3
+21,Longan,fruit,active,12000,3
+22,Lychee,fruit,active,12000,3
+23,Mamey Sapote,fruit,active,10000,3
+24,Mangga,fruit,active,8000,7
+25,Manggis,fruit,active,15000,3
+26,Marionberry,fruit,active,6000,4
+27,Melon,fruit,active,4000,5
+28,Mulberry,fruit,active,8000,3
+29,Nectarine,fruit,active,8000,5
+30,Noni,fruit,active,15000,2
+31,Olives,fruit,active,9000,14
+32,JerukNipis,fruit,active,6000,7
+33,Papaya,fruit,active,5000,3
+34,BuahMarkisa,fruit,active,8000,3
+35,Peach,fruit,active,8000,5
+36,Pear,fruit,active,7000,7
+37,Persimmon,fruit,active,10000,5
+38,Nanas,fruit,active,4000,5
+39,Pisang Raja,fruit,active,3000,7
+40,Plum,fruit,active,7000,5
+41,Buah Delima,fruit,active,12000,3
+42,Pomelo,fruit,active,4000,10
+43,Blackcurrant,fruit,active,8000,3
+44,Redcurrant,fruit,active,8000,3
+45,Rhubarb,fruit,active,8000,4
+46,Strawberry,fruit,active,8000,3
+47,Soursop,fruit,active,15000,2
+48,Tangerine,fruit,active,6000,7
+49,Tomat,fruit vegetable,active,4000,5
+50,Avokad,vegetable,active,10000,5
+51,Bayam,vegetable,active,4000,3
+52,Brokoli,vegetable,active,6000,5
+53,Buncis,vegetable,active,5000,4
+54,Wortel,fruit vegetable,active,3000,7
+55,Aprikot,fruit vegetable,active,9000,5
+56,Chayote,fruit vegetable,active,4000,5
+57,Kembang Kol,fruit vegetable,active,5000,5
+58,Mentimun,fruit vegetable,active,4000,5
+59,Selada,fruit vegetable,active,3000,3
+60,Jagung,fruit vegetable,active,3000,2
+61,Terong,fruit vegetable,active,5000,3
+62,Kubis,fruit vegetable,active,4000,7
+63,Labu,fruit vegetable,active,4000,7
+64,Timun Suri,fruit vegetable,active,8000,3
+65,Keledek,fruit vegetable,active,3000,14
+66,Labu Siam,fruit vegetable,active,5000,7
+67,Kacang Panjang,fruit vegetable,active,5000,4
+68,Okra,fruit vegetable,active,5000,3
+69,Bawang Bombay,fruit vegetable,active,10000,21
+70,Bawang Putih,fruit vegetable,active,8000,14
+71,Paprika,fruit vegetable,active,10000,5
+72,Timun,fruit vegetable,active,4000,5
+73,Tomatillo,fruit vegetable,active,6000,7
+74,Zucchini,fruit vegetable,active,5000,5
+75,Kentang,fruit vegetable,active,3000,14
+76,Jicama,fruit vegetable,active,5000,14
+77,Sawi,fruit vegetable,active,3000,3
+78,Kale,fruit vegetable,active,6000,5
+79,Lettuce,fruit vegetable,active,3000,5
+80,Chili,fruit vegetable,active,7000,7
