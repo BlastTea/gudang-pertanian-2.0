@@ -1,3 +1,4 @@
+import os
 import re
 
 from models import Item
@@ -18,3 +19,12 @@ def snaketopascal(s: str) -> str:
 
 def getfields(obj) -> list[str]:
     return [attr.removeprefix('_') for attr in obj.__dict__ if not callable(getattr(obj, attr))]
+
+def clrscr():
+    os_name = os.name.lower()
+    if 'nt' in os_name: # Wndows
+        os.system('cls')
+    elif 'posix' in os_name: # Linux/Unix/MacOS
+        os.system('clear')
+    else:
+        raise TypeError(f'{os_name} is unsupported')

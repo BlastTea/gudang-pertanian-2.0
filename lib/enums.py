@@ -12,6 +12,9 @@ class ModelEnum(Enum):
     def fromvalue(cls, value):
         pass
 
+    def translate(self) -> str:
+        pass
+
 
 class ModelStatus(ModelEnum):
     ACTIVE = 'active'
@@ -26,6 +29,14 @@ class ModelStatus(ModelEnum):
             return cls.NOT_ACTIVE
         else:
             raise ValueError(f'Unknown {value}')
+
+    def translate(self) -> str:
+        if self == self.ACTIVE:
+            return 'Aktif'
+        elif self == self.NOT_ACTIVE:
+            return 'Tidak Aktif'
+        else:
+            raise ValueError(f'Unknown {self}')
 
 
 class ItemType(ModelEnum):
@@ -46,6 +57,16 @@ class ItemType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    def translate(self) -> str:
+        if self == self.FRUIT:
+            return 'Buah'
+        elif self == self.VEGETABLE:
+            return 'Sayur'
+        elif self == self.FRUIT_VEGETABLE:
+            return 'Buah Sayur'
+        else:
+            raise ValueError(f'Unknown {self}')
+
 
 class RackType(ModelEnum):
     DISPLAY = 'display'
@@ -60,6 +81,14 @@ class RackType(ModelEnum):
             return cls.STORAGE
         else:
             raise ValueError(f'Unknown {value}')
+
+    def translate(self) -> str:
+        if self == self.DISPLAY:
+            return 'Tampilan'
+        elif self == self.STORAGE:
+            return 'Penyimpanan'
+        else:
+            raise ValueError(f'Unknown {self}')
 
 
 class WarehouseTransactionType(ModelEnum):
@@ -76,6 +105,14 @@ class WarehouseTransactionType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    def translate(self) -> str:
+        if self == self.IN:
+            return 'Masuk'
+        elif self == self.OUT:
+            return 'Keluar'
+        else:
+            raise ValueError(f'Unknown {self}')
+
 
 class TransactionStatus(ModelEnum):
     UNPAID = 'unpaid'
@@ -90,3 +127,11 @@ class TransactionStatus(ModelEnum):
             return cls.PAID
         else:
             raise ValueError(f'Unknown {value}')
+
+    def translate(self) -> str:
+        if self == self.UNPAID:
+            return 'Belum Dibayar'
+        elif self == self.PAID:
+            return 'Dibayar'
+        else:
+            raise ValueError(f'Unknown {self}')

@@ -27,52 +27,72 @@ class SharedPreferences:
         else:
             return True
 
-    def get_string(self, key: str) -> str | None:
+    @staticmethod
+    def get_string(key: str) -> str | None:
+        instance = SharedPreferences()
         try:
-            return self.data[key]
+            return instance.data[key]
         except:
             return None
 
-    def set_string(self, key: str, value: str) -> bool:
-        self.data[key] = value
-        return self.__save__()
+    @staticmethod
+    def set_string(key: str, value: str) -> bool:
+        instance = SharedPreferences()
+        instance.data[key] = value
+        return instance.__save__()
 
-    def get_bool(self, key: str) -> bool | None:
+    @staticmethod
+    def get_bool(key: str) -> bool | None:
+        instance = SharedPreferences()
         try:
-            return self.data[key]
+            return instance.data[key]
         except:
             return None
 
-    def set_bool(self, key: str, value: bool) -> bool:
-        self.data[key] = value
-        return self.__save__()
+    @staticmethod
+    def set_bool(key: str, value: bool) -> bool:
+        instance = SharedPreferences()
+        instance.data[key] = value
+        return instance.__save__()
 
-    def get_int(self, key: str) -> int | None:
+    @staticmethod
+    def get_int(key: str) -> int | None:
+        instance = SharedPreferences()
         try:
-            return self.data[key]
+            return instance.data[key]
         except:
             return None
 
-    def set_int(self, key: str, value: int) -> bool:
-        self.data[key] = value
-        return self.__save__()
+    @staticmethod
+    def set_int(key: str, value: int) -> bool:
+        instance = SharedPreferences()
+        instance.data[key] = value
+        return instance.__save__()
 
-    def get_float(self, key: str) -> float | None:
+    @staticmethod
+    def get_float(key: str) -> float | None:
+        instance = SharedPreferences()
         try:
-            return self.data[key]
+            return instance.data[key]
         except:
             return None
 
-    def set_float(self, key: str, value: float) -> bool:
-        self.data[key] = value
-        return self.__save__()
+    @staticmethod
+    def set_float(key: str, value: float) -> bool:
+        instance = SharedPreferences()
+        instance.data[key] = value
+        return instance.__save__()
 
-    def get_string_list(self, key: str) -> list[str] | None:
+    @staticmethod
+    def get_string_list(key: str) -> list[str] | None:
+        instance = SharedPreferences()
         try:
-            return self.data[key]
+            return instance.data[key]
         except:
             return None
 
-    def set_string_list(self, key: str, value: list[str]) -> bool:
-        self.data[key] = value
-        return self.__save__()
+    @staticmethod
+    def set_string_list(key: str, value: list[str]) -> bool:
+        instance = SharedPreferences()
+        instance.data[key] = value
+        return instance.__save__()
