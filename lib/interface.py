@@ -46,17 +46,17 @@ class Interface:
 
     @staticmethod
     def print_table(values: list[dict[str, Any]], flex=True):
-        actual_length = 1
+        actual_length = 2
         column_lengths = [0] * len(values[0])
 
         for value in values:
             for j, key in enumerate(value):
                 value_len = len(f'{value[key]}')
                 column_lengths[j] = max(
-                    [column_lengths[j], value_len, len(key)])
+                    [column_lengths[j], value_len, len(key)]) + 1
 
         for column_length in column_lengths:
-            actual_length += column_length + 1
+            actual_length += column_length + 2
 
         # if WIDTH > actual_length:
         #     rest_width = WIDTH - actual_length
@@ -75,8 +75,8 @@ class Interface:
         if WIDTH > actual_length and flex:
             for i in range(len(column_lengths)):
                 column_lengths[i] = WIDTH // len(column_lengths) - 1
-                if i == len(column_lengths) - 1:
-                    column_lengths[i] -= 1
+                if i == len(column_lengths) -1:
+                    column_lengths[i] -= 2
 
         # header
         out = '+'
