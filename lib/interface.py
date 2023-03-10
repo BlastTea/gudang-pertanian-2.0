@@ -46,50 +46,87 @@ class Interface:
 
     @staticmethod
     def print_table(values: list[dict[str, Any]], flex=True):
-        actual_length = 2
-        column_lengths = [0] * len(values[0])
+        actual_length = 0
+        column_lengths: list[dict[str, int]] = [
+            {'min_width': 0, 'width': 0}] * len(values[0])
 
         for value in values:
-            for j, key in enumerate(value):
-                value_len = len(f'{value[key]}')
-                column_lengths[j] = max(
-                    [column_lengths[j], value_len, len(key)]) + 1
+            for i, key in enumerate(value):
+                width = max([column_lengths[i]['width'], len(
+                    f'{value[key]}'), len(key)])
+                column_lengths[i] = {'min_width': width, 'width': width}
 
         for column_length in column_lengths:
-            actual_length += column_length + 2
-
-        # if WIDTH > actual_length:
-        #     rest_width = WIDTH - actual_length
-        #     while rest_width > 0:
-        #         each_width = rest_width // len(column_lengths)
-
-        #         if each_width == 0:
-        #             each_width = 1
-
-        #         for i in range(len(column_lengths)):
-        #             column_lengths[i] += each_width
-        #             rest_width -= each_width
-        #             if rest_width <= 0:
-        #                 break
+            actual_length += column_length['width'] + 2
 
         if WIDTH > actual_length and flex:
-            for i in range(len(column_lengths)):
-                column_lengths[i] = WIDTH // len(column_lengths) - 1
-                if i == len(column_lengths) -1:
-                    column_lengths[i] -= 2
+            actual_length = 0
+            total_of_vast_column = len(column_lengths)
+            actual_diff = 0
+            new_column_lengths: list[int] = [0] * len(values[0])
+
+            for i, column_length in enumerate(column_lengths):
+                new_column_lengths[i] = WIDTH // len(column_lengths) - 1
+
+                if new_column_lengths[i] < column_lengths[i]['width']:
+                    diff = column_lengths[i]['width'] - \
+                        new_column_lengths[i]
+                    new_column_lengths[i] += diff
+                    actual_diff += diff + \
+                        (2 if column_lengths[i]['min_width']
+                         == new_column_lengths[i] else 0)
+                    total_of_vast_column -= 1
+
+                # if i == len(column_lengths) - 1 and new_column_lengths[i] > column_lengths[i]['width']:
+                #     new_column_lengths[i] -= 1
+
+            def divide_equally(actual_length: int):
+                for i in range(len(new_column_lengths)):
+                    diff_mod = actual_diff % total_of_vast_column
+                    each_width = actual_diff // total_of_vast_column
+
+                    if new_column_lengths[i] > column_lengths[i]['min_width']:
+                        new_column_lengths[i] -= each_width
+                        if new_column_lengths[i] > column_lengths[i]['min_width']:
+                            new_column_lengths[i] -= diff_mod // total_of_vast_column
+
+                    column_lengths[i]['width'] = new_column_lengths[i] + \
+                        (2 if column_lengths[i]['width']
+                         == new_column_lengths[i] else 0)
+                    actual_length += column_lengths[i]['width']
+
+            divide_equally(actual_length)
+
+            if actual_length % 2 == 0:
+                actual_diff = 2
+            else:
+                actual_diff = 1
+
+            divide_equally(actual_length)
 
         # header
         out = '+'
-        for i in column_lengths:
-            out += '-' * i + '+'
+        for column_length in column_lengths:
+            out += '-' * column_length['width'] + '+'
         print(out)
 
         out = '|'
         for i, key in enumerate(values[0]):
-            out += key.center(column_lengths[i]) + '|'
+            out += key.center(column_lengths[i]['width']) + '|'
         print(out)
 
         out = '+'
-        for i in column_lengths:
-            out += '-' * i + '+'
+        for column_length in column_lengths:
+            out += '-' * column_length['width'] + '+'
+        print(out)
+
+        for i in values:
+            out = '|'
+            for j, key in enumerate(i):
+                out += f'{i[key]}'.center(column_lengths[j]['width']) + '|'
+            print(out)
+
+        out = '+'
+        for column_length in column_lengths:
+            out += '-' * column_length['width'] + '+'
         print(out)
