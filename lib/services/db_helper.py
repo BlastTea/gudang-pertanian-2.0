@@ -51,7 +51,7 @@ class DbHelper:
         fields = getfields(instance)
         for i in fields:
             if issubclass(type(getattr(instance, i)), ModelEnum):
-                setattr(instance, i, getattr(instance, i).fromvalue(value[i]))
+                setattr(instance, i, type(getattr(instance, i)).fromvalue(value[i]))
             elif issubclass(type(getattr(instance, i)), Model):
                 setattr(instance, i, self.__fromdict__(
                     type(getattr(instance, i)), value[i]))
@@ -83,9 +83,7 @@ class DbHelper:
 
     @staticmethod
     def create(value: T) -> T:
-        if not isinstance(value, Model):
-            raise ValueError(
-                f'{type(value).__name__} must be a subclass of Model')
+        assert isinstance(value, Model), f'{type(value).__name__} must be a subclass of Model'
 
         db_instance = DbHelper()
 
@@ -108,8 +106,7 @@ class DbHelper:
 
     @staticmethod
     def read(t: Type[T]) -> list[T]:
-        if not issubclass(t, Model):
-            raise ValueError(f'{t.__name__} must be a subclass of Model')
+        assert issubclass(t, Model), f'{t.__name__} must be a subclass of Model'
 
         instance = t()
         db_instance = DbHelper()
@@ -122,10 +119,10 @@ class DbHelper:
         for i, row in enumerate(model_dicts):
             for j, key in enumerate(row):
                 if key.__contains__('_id'):
-                    if model_changed.get(i) is None:
-                        model_changed[i] = {}
-                    if model_changed.get(i).get(j) is None:
-                        model_changed[i][j] = {}
+                    # if model_changed.get(i) is None:
+                    #     model_changed[i] = {}
+                    # if model_changed.get(i).get(j) is None:
+                    #     model_changed[i][j] = {}
                     model_changed[i][j]['pop'] = key
                     model_changed[i][j]['key'] = key.removesuffix('_id')
                     model_changed[i][j]['value'] = db_instance.__todict__([val for val in db_instance.read(
@@ -144,9 +141,7 @@ class DbHelper:
 
     @staticmethod
     def update(value: Model):
-        if not isinstance(value, Model):
-            raise ValueError(
-                f'{type(value).__name__} must be a subclass of Model')
+        assert isinstance(value, Model), f'{type(value).__name__} must be a subclass of Model'
 
         db_instance = DbHelper()
 
@@ -165,9 +160,7 @@ class DbHelper:
 
     @staticmethod
     def delete(value: Model):
-        if isinstance(value, Model):
-            raise ValueError(
-                f'{type(value).__name__} must be a subclass of Model')
+        assert isinstance(value, Model), f'{type(value).__name__} must be a subclass of Model'
 
         db_instance = DbHelper()
 

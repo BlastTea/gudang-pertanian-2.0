@@ -4,8 +4,18 @@ from six import with_metaclass
 from typing_extensions import Self
 
 
-class ABCEnumMeta(EnumMeta, ABC):
-    pass
+class TextAlign(Enum):
+    LEFT = 0
+
+    CENTER = 1
+
+    RIGHT = 2
+
+
+class Fit(Enum):
+    EXPAND = 0
+
+    TIGHT = 1
 
 
 class ModelEnum(Enum):
