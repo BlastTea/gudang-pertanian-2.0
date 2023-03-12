@@ -4,7 +4,6 @@ from constants import *
 from enums import ModelStatus
 from models import *
 from services.shared_preferences import SharedPreferences
-from typing_extensions import Self
 from typing import Any, Type, TypeVar
 from utils import *
 
@@ -14,7 +13,7 @@ T = TypeVar('T', bound=Model)
 class DbHelper:
     __instance = None
 
-    def __new__(cls: type[Self]) -> Self:
+    def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
         return cls.__instance
@@ -51,7 +50,8 @@ class DbHelper:
         fields = getfields(instance)
         for i in fields:
             if issubclass(type(getattr(instance, i)), ModelEnum):
-                setattr(instance, i, type(getattr(instance, i)).fromvalue(value[i]))
+                setattr(instance, i, type(
+                    getattr(instance, i)).fromvalue(value[i]))
             elif issubclass(type(getattr(instance, i)), Model):
                 setattr(instance, i, self.__fromdict__(
                     type(getattr(instance, i)), value[i]))
@@ -83,7 +83,8 @@ class DbHelper:
 
     @staticmethod
     def create(value: T) -> T:
-        assert isinstance(value, Model), f'{type(value).__name__} must be a subclass of Model'
+        assert isinstance(
+            value, Model), f'{type(value).__name__} must be a subclass of Model'
 
         db_instance = DbHelper()
 
@@ -106,7 +107,8 @@ class DbHelper:
 
     @staticmethod
     def read(t: Type[T]) -> list[T]:
-        assert issubclass(t, Model), f'{t.__name__} must be a subclass of Model'
+        assert issubclass(
+            t, Model), f'{t.__name__} must be a subclass of Model'
 
         instance = t()
         db_instance = DbHelper()
@@ -141,7 +143,8 @@ class DbHelper:
 
     @staticmethod
     def update(value: Model):
-        assert isinstance(value, Model), f'{type(value).__name__} must be a subclass of Model'
+        assert isinstance(
+            value, Model), f'{type(value).__name__} must be a subclass of Model'
 
         db_instance = DbHelper()
 
@@ -160,7 +163,8 @@ class DbHelper:
 
     @staticmethod
     def delete(value: Model):
-        assert isinstance(value, Model), f'{type(value).__name__} must be a subclass of Model'
+        assert isinstance(
+            value, Model), f'{type(value).__name__} must be a subclass of Model'
 
         db_instance = DbHelper()
 

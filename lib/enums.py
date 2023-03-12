@@ -1,7 +1,4 @@
-from abc import ABC, abstractmethod
-from enum import Enum, EnumMeta
-from six import with_metaclass
-from typing_extensions import Self
+from enum import Enum
 
 
 class TextAlign(Enum):
@@ -18,11 +15,24 @@ class Fit(Enum):
     TIGHT = 1
 
 
+class ReturnType(Enum):
+    SKIP = 0
+
+    BACK = 1
+
+    OK = 2
+
+    ERROR = 3
+
+
 class ModelEnum(Enum):
     def fromvalue(cls, value):
         pass
 
-    def translate(self) -> str:
+    def fromindonesianvalue(cls, value):
+        pass
+
+    def translate(self):
         pass
 
 
@@ -32,7 +42,7 @@ class ModelStatus(ModelEnum):
     NOT_ACTIVE = 'not active'
 
     @classmethod
-    def fromvalue(cls, value: str) -> Self:
+    def fromvalue(cls, value: str):
         if value == 'active':
             return cls.ACTIVE
         elif value == 'not active':
@@ -40,7 +50,15 @@ class ModelStatus(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
-    def translate(self) -> str:
+    def fromindonesianvalue(cls, value):
+        if value == 'aktif':
+            return cls.ACTIVE
+        elif value == 'tidak aktif':
+            return cls.NOT_ACTIVE
+        else:
+            raise ValueError(f'Unknown {value}')
+
+    def translate(self):
         if self == self.ACTIVE:
             return 'Aktif'
         elif self == self.NOT_ACTIVE:
@@ -57,7 +75,7 @@ class ItemType(ModelEnum):
     FRUIT_VEGETABLE = 'fruit vegetable'
 
     @classmethod
-    def fromvalue(cls, value: str) -> Self:
+    def fromvalue(cls, value: str):
         if value == 'fruit':
             return cls.FRUIT
         elif value == 'vegetable':
@@ -67,7 +85,17 @@ class ItemType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
-    def translate(self) -> str:
+    def fromindonesianvalue(cls, value):
+        if value == 'buah':
+            return cls.FRUIT
+        elif value == 'sayur':
+            return cls.VEGETABLE
+        elif value == 'buah sayur':
+            return cls.FRUIT_VEGETABLE
+        else:
+            return ValueError(f'Unknown {value}')
+
+    def translate(self):
         if self == self.FRUIT:
             return 'Buah'
         elif self == self.VEGETABLE:
@@ -84,7 +112,7 @@ class RackType(ModelEnum):
     STORAGE = 'storage'
 
     @classmethod
-    def fromvalue(cls, value: str) -> Self:
+    def fromvalue(cls, value: str):
         if value == 'display':
             return cls.DISPLAY
         elif value == 'storage':
@@ -92,7 +120,15 @@ class RackType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
-    def translate(self) -> str:
+    def fromindonesianvalue(cls, value):
+        if value == 'tampilan':
+            return cls.DISPLAY
+        elif value == 'penyimpanan':
+            return cls.STORAGE
+        else:
+            raise ValueError(f'Unknown {value}')
+
+    def translate(self):
         if self == self.DISPLAY:
             return 'Tampilan'
         elif self == self.STORAGE:
@@ -107,7 +143,7 @@ class WarehouseTransactionType(ModelEnum):
     OUT = 'out'
 
     @classmethod
-    def fromvalue(cls, value: str) -> Self:
+    def fromvalue(cls, value: str):
         if value == 'in':
             return cls.IN
         elif value == 'out':
@@ -115,7 +151,15 @@ class WarehouseTransactionType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
-    def translate(self) -> str:
+    def fromindonesianvalue(cls, value):
+        if value == 'masuk':
+            return cls.IN
+        elif value == 'keluar':
+            return cls.OUT
+        else:
+            raise ValueError(f'Unknown {value}')
+
+    def translate(self):
         if self == self.IN:
             return 'Masuk'
         elif self == self.OUT:
@@ -138,7 +182,15 @@ class TransactionStatus(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
-    def translate(self) -> str:
+    def fromindonesianvalue(cls, value):
+        if value == 'belum dibayar':
+            return cls.UNPAID
+        elif value == 'dibayar':
+            return cls.PAID
+        else:
+            raise ValueError(f'Unknown {value}')
+
+    def translate(self):
         if self == self.UNPAID:
             return 'Belum Dibayar'
         elif self == self.PAID:

@@ -1,63 +1,239 @@
-import csv
-
 from enums import *
 from interface import *
+from models import *
 from services.db_helper import DbHelper
-# items = []
-# with open('./databases/items.csv') as file:
-#     for i, rows in enumerate(csv.DictReader(file)):
-#         # items.append([row[2], row[3], row[4], row[5]])
-#         items.append({})
-#         for column in rows:
-#             if column == 'type':
-#                 if rows[column] == 'buah':
-#                     items[i]['type'] = 'fruit'
-#                 else:
-#                     items[i]['type'] = 'vegetable'
-#             else:
-#                 items[i][column] = rows[column]
 
-# with open('./databases/items.csv', 'w', newline='') as file:
-#     writer = csv.DictWriter(file, fieldnames=[
-#                    'id', 'status', 'name', 'type', 'price', 'expired_day'])
-#     writer.writeheader()
-#     writer.writerows(items)
+while True:
+    main_menu_choice = Interface.get_choice(
+        'Barang',
+        'Rak',
+        'Penjualan',
+        'Laporan',
+        title='Gudang Pertanian 2.0',
+        back='Exit'
+    )
+    if main_menu_choice is True:
+        continue
 
-Interface.get_choice(
-    'Apa?',
-    'Tidak',
-    'Iya',
-    'Hello',
-    'world',
-    'i',
-    'dont',
-    'know',
-    'yet',
-    'please',
-    'help',
-    title='Selamat Datang'
-)
+    if main_menu_choice == 1:
+        while True:
+            clrscr()
+            items = DbHelper.read(Item)
+            data = []
 
-# print(f'hello?: {75 // 4}')
+            for i, item in enumerate(items):
+                data.append(
+                    {
+                        'No': i + 1,
+                        'Nama': item.name,
+                        'Tipe': item.type.translate(),
+                        'Harga': item.price,
+                        'Expired': item.expired_day
+                    }
+                )
 
-data = []
+            Interface.title('Barang')
+            Interface.print_table(
+                data,
+                TableSettings(
+                    fits={'No': Fit.TIGHT},
+                    default_alignment=TextAlign.RIGHT,
+                    on_empty_value='Barang masih kosong!'
+                )
+            )
 
-for i, item in enumerate(DbHelper.read(Item)):
-    if i < 10:
-        data.append(
-            {
-                'No': i + 1,
-                'Nama': item.name,
-                'Harga': item.price,
-                'Expired': item.expired_day,
-            }
-        )
-    else:
+            item_choice = Interface.get_choice(
+                'Edit Harga',
+                is_clear=False,
+                is_with_cover=len(data) == 0
+            )
+            if item_choice is True:
+                continue
+
+            if item_choice == 1:
+                clrscr()
+                Interface.title('Pilih Barang')
+                Interface.print_table(
+                    data,
+                    TableSettings(
+                        fits={'No': Fit.TIGHT},
+                        default_alignment=TextAlign.RIGHT
+                    )
+                )
+
+                number = -1
+                try:
+                    while number == -1:
+                        number = Interface.get_choice(
+                            start=0,
+                            end=len(data),
+                            prompt='No',
+                            option_not_found_message='Barang tidak ditemukan!',
+                            is_clear=False
+                        )
+                        if number is ReturnType.SKIP or number is ReturnType.BACK or number is ReturnType.ERROR:
+                            number = -1
+                        elif number == 0:
+                            raise
+                except:
+                    continue
+
+                item: Item = items[number - 1]
+
+                result = Interface.input_field(
+                    [
+                        InputFieldDataNumber('Harga', 0)
+                    ],
+                    [
+                        {'Atribut': key, 'Nilai': value} for key, value in {
+                            'No': number,
+                            'Nama': item.name,
+                            'Tipe': item.type.translate(),
+                            'Harga': item.price,
+                            'Expired': item.expired_day
+                        }.items()
+                    ],
+                    TableSettings(
+                        True,
+                        alignments=[
+                            TextAlign.LEFT,
+                            TextAlign.RIGHT
+                        ],
+                        is_hide_column=True
+                    ),
+                    'Edit Harga'
+                )
+                if result is ReturnType.BACK:
+                    continue
+
+                # price = -1
+                # try:
+                #     while price == -1:
+                #         clrscr()
+                #         Interface.title('Edit Harga')
+                #         Interface.print_table(
+                #             [
+                #                 {'Atribut': key, 'Nilai': value} for key, value in {
+                #                     'No': number,
+                #                     'Nama': item.name,
+                #                     'Tipe': item.type.translate(),
+                #                     'Harga': item.price,
+                #                     'Expired': item.expired_day
+                #                 }.items()
+                #             ],
+                #             False,
+                #             alignments=[
+                #                 TextAlign.LEFT,
+                #                 TextAlign.RIGHT
+                #             ]
+                #         )
+                #         Interface.updateInfo()
+                #         price = Interface.get_capped_input(
+                #             0,
+                #             prompt='Harga',
+                #             on_out_of_bound='Harga tidak boleh kurang dari 0!',
+                #             is_can_be_skipped=True
+                #         )
+                #         if price == -2:
+                #             raise
+                # except:
+                #     continue
+
+                item.price = result[0].result
+                DbHelper.update(item)
+
+            elif item_choice == 0:
+                break
+    elif main_menu_choice == 2:
+        while True:
+            clrscr()
+            racks = DbHelper.read(Rack)
+            data = []
+
+            for i, rack in enumerate(racks):
+                data.append(
+                    {
+                        'No': i + 1,
+                        'Nama': rack.name,
+                        'Tipe': rack.type.translate()
+                    }
+                )
+
+            Interface.title('Rak')
+            Interface.print_table(
+                data,
+                fits={'No': Fit.TIGHT},
+                default_alignment=TextAlign.RIGHT,
+                on_empty_value='Rak masih kosong!'
+            )
+
+            rack_choice = Interface.get_choice(
+                'Tambah Rak', 'Edit Rak', 'Hapus Rak', is_clear=False, is_with_cover=len(data) == 0)
+            if rack_choice == -1:
+                continue
+
+            if rack_choice == 1:
+                name = ''
+                type = ''
+                while True:
+                    clrscr()
+                    Interface.title('Tambah Rak')
+                    # Interface.updateInfo()
+
+                    if len(name) == 0:
+                        name = input('Nama* : ').strip()
+                        if name == '<':
+                            break
+                        elif name == '-':
+                            input('Nama tidak bisa dilewati karena wajib!')
+                            continue
+                    else:
+                        print(f'Nama* : {name}')
+
+                    if isinstance(type, str):
+                        Interface.print_table(
+                            [
+                                {
+                                    'a': 1,
+                                    'b': 'Tampilan (default)',
+                                    'c': 'Menunjukkan bahwa rak ini berada di tampilan depan'
+                                },
+                                {
+                                    'a': 2,
+                                    'b': 'Penyimpanan',
+                                    'c': 'Menunjukkan bahwa rak ini berada di penyimpanan'
+                                }
+                            ],
+                            alignments=[
+                                TextAlign.RIGHT,
+                                TextAlign.LEFT,
+                                TextAlign.RIGHT
+                            ],
+                            is_hide_column=True
+                        )
+                        try:
+                            type_input = input('Tipe : ').strip().lower()
+                            if type_input == '1':
+                                type = RackType.DISPLAY
+                            elif type_input == '2':
+                                type = RackType.STORAGE
+                            elif type_input == '<':
+                                break
+                            elif type_input != '-':
+                                type = RackType.fromindonesianvalue(type_input)
+                            else:
+                                type = RackType.DISPLAY
+                        except:
+                            input('Tipe tidak valid!')
+                            continue
+                    else:
+                        print(f'Tipe : {type}')
+
+                if len(name) != 0 and not isinstance(type, str):
+                    DbHelper.create(Rack(name=name, type=type))
+
+            elif rack_choice == 0:
+                break
+
+    elif main_menu_choice == 0:
         break
-
-
-Interface.print_table(
-    data,
-    fits={'No': Fit.TIGHT, 'Harga': Fit.TIGHT, 'Expired': Fit.TIGHT},
-    default_alignment=TextAlign.RIGHT,
-)
