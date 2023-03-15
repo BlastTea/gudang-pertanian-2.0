@@ -35,6 +35,9 @@ class ModelEnum(Enum):
     def translate(self):
         pass
 
+    def description(self):
+        pass
+
 
 class ModelStatus(ModelEnum):
     ACTIVE = 'active'
@@ -50,6 +53,7 @@ class ModelStatus(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    @classmethod
     def fromindonesianvalue(cls, value):
         if value == 'aktif':
             return cls.ACTIVE
@@ -63,6 +67,14 @@ class ModelStatus(ModelEnum):
             return 'Aktif'
         elif self == self.NOT_ACTIVE:
             return 'Tidak Aktif'
+        else:
+            raise ValueError(f'Unknown {self}')
+
+    def description(self):
+        if self == self.ACTIVE:
+            return 'Data ini masih belum dihapus'
+        elif self == self.NOT_ACTIVE:
+            return 'Data ini sudah dihapus'
         else:
             raise ValueError(f'Unknown {self}')
 
@@ -85,6 +97,7 @@ class ItemType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    @classmethod
     def fromindonesianvalue(cls, value):
         if value == 'buah':
             return cls.FRUIT
@@ -105,6 +118,16 @@ class ItemType(ModelEnum):
         else:
             raise ValueError(f'Unknown {self}')
 
+    def description(self):
+        if self == self.FRUIT:
+            return 'Menunjukkan bahwa barang ini adalah Buah'
+        elif self == self.VEGETABLE:
+            return 'Menunjukkan bahwa barang ini adalah Sayur'
+        elif self == self.FRUIT_VEGETABLE:
+            return 'Menunjukkan bahwa barang ini adalah Buah Sayur'
+        else:
+            raise ValueError(f'Unknown {self}')
+
 
 class RackType(ModelEnum):
     DISPLAY = 'display'
@@ -120,6 +143,7 @@ class RackType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    @classmethod
     def fromindonesianvalue(cls, value):
         if value == 'tampilan':
             return cls.DISPLAY
@@ -133,6 +157,14 @@ class RackType(ModelEnum):
             return 'Tampilan'
         elif self == self.STORAGE:
             return 'Penyimpanan'
+        else:
+            raise ValueError(f'Unknown {self}')
+
+    def description(self):
+        if self == self.DISPLAY:
+            return 'Menunjukkan bahwa rak ini berada di tampilan depan'
+        elif self == self.STORAGE:
+            return 'Menunjukkan bahwa rak ini berada di penyimpanan'
         else:
             raise ValueError(f'Unknown {self}')
 
@@ -151,6 +183,7 @@ class WarehouseTransactionType(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    @classmethod
     def fromindonesianvalue(cls, value):
         if value == 'masuk':
             return cls.IN
@@ -164,6 +197,14 @@ class WarehouseTransactionType(ModelEnum):
             return 'Masuk'
         elif self == self.OUT:
             return 'Keluar'
+        else:
+            raise ValueError(f'Unknown {self}')
+
+    def description(self):
+        if self == self.IN:
+            return 'Menunjukkan bahwa transaksi ini adalah transaksi masuk'
+        elif self == self.OUT:
+            return 'Menunjukkan bahwa transaksi ini adalah transaksi keluar'
         else:
             raise ValueError(f'Unknown {self}')
 
@@ -182,6 +223,7 @@ class TransactionStatus(ModelEnum):
         else:
             raise ValueError(f'Unknown {value}')
 
+    @classmethod
     def fromindonesianvalue(cls, value):
         if value == 'belum dibayar':
             return cls.UNPAID
@@ -195,5 +237,13 @@ class TransactionStatus(ModelEnum):
             return 'Belum Dibayar'
         elif self == self.PAID:
             return 'Dibayar'
+        else:
+            raise ValueError(f'Unknown {self}')
+
+    def description(self):
+        if self == self.UNPAID:
+            return 'Menunjukkan bahwa transaksi ini belum dibayar'
+        elif self == self.PAID:
+            return 'Menunjukkan bahwa transaksi ini sudah dibayar'
         else:
             raise ValueError(f'Unknown {self}')

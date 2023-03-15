@@ -59,25 +59,6 @@ class Rack(Model):
         self.type = type
 
 
-class ItemRack(Model):
-    def __init__(
-        self,
-        id: int = 0,
-        status: ModelStatus = ModelStatus.ACTIVE,
-        item: Item = Item(),
-        rack: Rack = Rack(),
-        stock: int = 0,
-        date: datetime = datetime.now(),
-    ):
-        super().__init__()
-        self.id = id
-        self.status = status
-        self.item = item
-        self.rack = rack
-        self.stock = stock
-        self.date = date
-
-
 class WarehouseTransaction(Model):
     def __init__(
         self,
@@ -86,8 +67,9 @@ class WarehouseTransaction(Model):
         item: Item = Item(),
         rack: Rack = Rack(),
         sender_name: str = '',
-        type: WarehouseTransactionType = None,
+        type: WarehouseTransactionType = WarehouseTransactionType.IN,
         amount: int = 0,
+        stock: int = 0,
         date: datetime = datetime.now(),
     ):
         super().__init__()
@@ -98,7 +80,15 @@ class WarehouseTransaction(Model):
         self.sender_name = sender_name
         self.type = type
         self.amount = amount
+        self.stock = stock
         self.date = date
+
+    def duration(self):
+        diff = datetime.now() - self.date
+        diff_seconds = diff.total_seconds()
+        diff_minutes = diff_seconds // 60
+        diff_hours = diff_minutes // 60
+        return diff.days, diff_hours, diff_minutes, diff_seconds
 
 
 class Transaction(Model):
